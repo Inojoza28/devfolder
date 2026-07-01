@@ -4,11 +4,11 @@ import { Search, Plus, LayoutGrid, List, Moon, Sun } from "lucide-react";
 import { Toaster } from "sonner";
 
 import { useDevFolder } from "@/hooks/useDevFolder";
-import { Sidebar } from "@/components/codepast/Sidebar";
-import { SnippetCard } from "@/components/codepast/SnippetCard";
-import { SnippetEditor } from "@/components/codepast/SnippetEditor";
-import { EmptyState } from "@/components/codepast/EmptyState";
-import { SnippetsSkeleton } from "@/components/codepast/SnippetsSkeleton";
+import { Sidebar } from "@/components/devfolder/Sidebar";
+import { SnippetCard } from "@/components/devfolder/SnippetCard";
+import { SnippetEditor } from "@/components/devfolder/SnippetEditor";
+import { EmptyState } from "@/components/devfolder/EmptyState";
+import { SnippetsSkeleton } from "@/components/devfolder/SnippetsSkeleton";
 import type { Snippet } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
