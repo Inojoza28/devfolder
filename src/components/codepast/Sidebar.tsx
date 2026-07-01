@@ -333,8 +333,16 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                     </button>
                   </div>
                 ) : (
-                            <button
+                            <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setView({ kind: "folder", folderId: f.id })}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setView({ kind: "folder", folderId: f.id });
+                        }
+                      }}
                       onDragOver={(e) => {
                         if (e.dataTransfer.types.includes(SNIPPET_DND_TYPE)) {
                           e.preventDefault();
@@ -401,22 +409,22 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                             >
                               <Pencil className="size-3" />
                             </span>
-                            <span
-                              role="button"
-                              tabIndex={0}
+                            <button
+                              type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setPendingDelete({ id: f.id, name: f.name });
                               }}
-                              className="rounded p-1 text-muted-foreground hover:bg-destructive/20 hover:text-destructive"
+                              className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/20 hover:text-destructive"
                               aria-label="Excluir pasta"
+                              title="Excluir pasta"
                             >
                               <Trash2 className="size-3" />
-                            </span>
+                            </button>
                           </span>
                         </>
                       )}
-                    </button>
+                    </div>
                 )}
               </div>
             );
@@ -494,24 +502,57 @@ export function Sidebar({ api, onNewSnippet }: Props) {
       <ConfirmDialog
         open={!!pendingDelete}
         onOpenChange={(v) => !v && setPendingDelete(null)}
-        title="Excluir pasta?"
+        title={
+          <div className="flex items-center gap-2">
+            <Trash2 className="size-4 text-destructive" />
+            <span>Excluir pasta?</span>
+          </div>
+        }
         description={
           pendingDelete && (
-            <>
-              A pasta{" "}
-              <span className="font-medium text-foreground">
-                {pendingDelete.name}
-              </span>{" "}
-              será removida. Os snippets contidos nela serão movidos para{" "}
-              <span className="font-medium text-foreground">Todos os snippets</span>.
-            </>
+            <div className="space-y-3 text-left">
+              <p>
+                A pasta{" "}
+                <span className="font-medium text-foreground">{pendingDelete.name}</span>{" "}
+                será removida. Como você quer tratar os snippets que estão nela?
+              </p>
+              <div className="flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (pendingDelete) deleteFolder(pendingDelete.id, "move");
+                    setPendingDelete(null);
+                  }}
+                  className="rounded-lg border border-border bg-background px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-accent"
+                >
+                  <span className="font-medium">Mover para Todos os snippets</span>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    A pasta some, mas os snippets ficam acessíveis na visão geral.
+                  </p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (pendingDelete) deleteFolder(pendingDelete.id, "delete-snippets");
+                    setPendingDelete(null);
+                  }}
+                  className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-left text-sm text-foreground transition-colors hover:bg-destructive/20"
+                >
+                  <span className="font-medium text-destructive">Excluir pasta e snippets</span>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    A pasta e todos os snippets dentro dela serão removidos permanentemente.
+                  </p>
+                </button>
+              </div>
+            </div>
           )
         }
-        confirmLabel="Excluir pasta"
+        confirmLabel=""
         cancelLabel="Cancelar"
-        destructive
+        destructive={false}
+        hideConfirmButton
         onConfirm={() => {
-          if (pendingDelete) deleteFolder(pendingDelete.id);
+          if (pendingDelete) deleteFolder(pendingDelete.id, "move");
           setPendingDelete(null);
         }}
       />

@@ -52,9 +52,13 @@ export function useCodePast() {
     setFolders((prev) => prev.map((f) => (f.id === id ? { ...f, name: name.trim() } : f)));
   }, []);
 
-  const deleteFolder = useCallback((id: string) => {
+  const deleteFolder = useCallback((id: string, mode: "move" | "delete-snippets" = "move") => {
     setFolders((prev) => prev.filter((f) => f.id !== id));
-    setSnippets((prev) => prev.map((s) => (s.folderId === id ? { ...s, folderId: null } : s)));
+    if (mode === "delete-snippets") {
+      setSnippets((prev) => prev.filter((s) => s.folderId !== id));
+    } else {
+      setSnippets((prev) => prev.map((s) => (s.folderId === id ? { ...s, folderId: null } : s)));
+    }
     setView((v) => (v.kind === "folder" && v.folderId === id ? { kind: "all" } : v));
   }, []);
 

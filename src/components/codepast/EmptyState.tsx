@@ -95,8 +95,8 @@ export function EmptyState({ onNew, onImport, hasQuery, isFirstRun }: Props) {
             <div className="h-2.5 w-2/3 rounded bg-white/5" />
           </div>
         </div>
-        <div className="absolute inset-0 grid place-items-center opacity-0 backdrop-blur-[1px] transition-opacity group-hover:opacity-100">
-          <span className="flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-lg">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/20 opacity-70 backdrop-blur-[1px] transition-opacity group-hover:opacity-100">
+          <span className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/90 px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-lg">
             <Plus className="size-3.5" />
             Novo snippet
           </span>
