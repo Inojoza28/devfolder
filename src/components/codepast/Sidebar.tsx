@@ -375,7 +375,7 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                       )}
                       <FolderIcon
                         className={cn(
-                          "size-4 shrink-0",
+                          "size-4 shrink-0 mr-2",
                           active || isDropTarget
                             ? "text-primary"
                             : "text-muted-foreground/60",
@@ -384,7 +384,7 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                       <span className={cn("min-w-0 truncate text-left", collapsed && "sr-only")}>{f.name}</span>
                       {!collapsed && (
                         <>
-                          <span className="font-mono text-[10px] text-muted-foreground/60 opacity-100 group-hover:opacity-0">
+                          <span className="ml-auto font-mono text-[10px] text-muted-foreground/60 opacity-100 group-hover:opacity-0">
                             {counts.perFolder[f.id] ?? 0}
                           </span>
                           <span className="absolute right-2 flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
