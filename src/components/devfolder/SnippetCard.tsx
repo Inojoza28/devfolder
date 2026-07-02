@@ -171,7 +171,7 @@ export function SnippetCard({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="rounded p-1.5 text-muted-foreground outline-none transition-colors hover:bg-white/5 hover:text-foreground focus-visible:ring-1 focus-visible:ring-primary/60"
+                  className="rounded p-1.5 text-muted-foreground outline-none transition-colors hover:bg-white/5 hover:text-foreground"
                   aria-label="Mover para pasta"
                 >
                   <FolderInput className="size-3.5" />

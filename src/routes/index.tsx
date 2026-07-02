@@ -96,12 +96,12 @@ function DevFolderPage() {
   const isFirstRun = api.ready && api.snippets.length === 0 && api.folders.length === 0;
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-background text-foreground md:flex-row">
       <Sidebar api={api} onNewSnippet={openNew} />
 
       <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
         {/* Barra de busca superior */}
-        <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border px-6 md:px-8">
+        <header className="flex min-h-16 shrink-0 items-center gap-3 border-b border-border px-4 py-3 md:h-16 md:gap-4 md:px-8 md:py-0">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <Search className="size-4 shrink-0 text-muted-foreground" />
             <input
@@ -120,7 +120,7 @@ function DevFolderPage() {
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <button
               onClick={() => setTheme((value) => (value === "dark" ? "light" : "dark"))}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/70 bg-background/70 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
@@ -131,18 +131,18 @@ function DevFolderPage() {
             </button>
             <button
               onClick={openNew}
-              className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:brightness-110"
+              className="flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:brightness-110 sm:px-3.5"
             >
               <Plus className="size-3.5" />
-              Novo snippet
+              <span className="hidden sm:inline">Novo snippet</span>
             </button>
           </div>
         </header>
 
         {/* Content */}
-        <div className="scrollbar-slim min-h-0 flex-1 overflow-y-auto px-6 py-8 md:px-8">
+        <div className="scrollbar-slim min-h-0 flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8">
           <div className="mx-auto max-w-5xl">
-            <div className="mb-8 flex items-end justify-between gap-4">
+            <div className="mb-6 flex items-end justify-between gap-4 md:mb-8">
               <div className="min-w-0">
                 <h2 className="truncate text-2xl font-semibold tracking-tight">
                   {heading}

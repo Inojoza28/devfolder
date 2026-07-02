@@ -14,6 +14,8 @@ import {
   GripVertical,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -94,15 +96,18 @@ export function Sidebar({ api, onNewSnippet }: Props) {
     <>
       <aside
         className={cn(
-          "flex shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-200 ease-out overflow-hidden overflow-x-hidden",
-          collapsed ? "w-[3.75rem] max-w-[3.75rem]" : "w-64",
+          "flex w-full shrink-0 flex-col overflow-hidden overflow-x-hidden border-b border-border bg-surface transition-[max-height,width] duration-200 ease-out md:h-screen md:border-b-0 md:border-r",
+          collapsed
+            ? "max-h-16 md:max-h-none md:w-[3.75rem] md:max-w-[3.75rem]"
+            : "max-h-[72vh] md:max-h-none md:w-64",
         )}
       >
       <div
         className={cn(
+          "shrink-0",
           collapsed
-            ? "flex flex-col items-center gap-2 pt-6 pb-4 px-0"
-            : "flex items-center gap-1.5 pt-6 pb-4 justify-between px-3",
+            ? "flex items-center justify-between px-4 py-3 md:flex-col md:gap-2 md:px-0 md:pb-4 md:pt-6"
+            : "flex items-center justify-between gap-2 px-4 py-3 md:gap-1.5 md:px-3 md:pb-4 md:pt-6",
         )}
       >
         <div className="flex items-center gap-2">
@@ -113,9 +118,9 @@ export function Sidebar({ api, onNewSnippet }: Props) {
             height={34}
             className="size-[34px] shrink-0"
           />
-          {!collapsed && (
-            <h1 className="text-base font-semibold tracking-tight">DevFolder</h1>
-          )}
+          <h1 className={cn("text-base font-semibold tracking-tight", collapsed && "md:sr-only")}>
+            DevFolder
+          </h1>
         </div>
 
         <div className="flex items-center gap-1">
@@ -123,39 +128,43 @@ export function Sidebar({ api, onNewSnippet }: Props) {
             <button
               onClick={() => setCollapsed((value) => !value)}
               className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
-              aria-label={collapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
-              title={collapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
+              aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
+              aria-expanded={!collapsed}
+              title={collapsed ? "Expandir menu" : "Recolher menu"}
             >
-              <ChevronRight className="size-4" />
+              <ChevronDown className="size-4 md:hidden" />
+              <ChevronRight className="hidden size-4 md:block" />
             </button>
           ) : (
             <button
               onClick={() => setCollapsed((value) => !value)}
               className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
-              aria-label={collapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
-              title={collapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
+              aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
+              aria-expanded={!collapsed}
+              title={collapsed ? "Expandir menu" : "Recolher menu"}
             >
-              <ChevronLeft className="size-4" />
+              <ChevronUp className="size-4 md:hidden" />
+              <ChevronLeft className="hidden size-4 md:block" />
             </button>
           )}
         </div>
       </div>
 
-      <div className={cn("pb-4", collapsed ? "px-0" : "px-4")}>
+      <div className={cn("px-4 pb-4 md:px-4", collapsed && "md:px-0")}>
         <Button
           onClick={onNewSnippet}
           className={cn(
             "w-full gap-2 bg-primary text-primary-foreground hover:brightness-110",
-            collapsed ? "justify-center px-0" : "justify-start",
+            collapsed ? "justify-start md:justify-center md:px-0" : "justify-start",
           )}
           size="sm"
         >
           <Plus className="size-4" />
-          {!collapsed && "Novo snippet"}
+          <span className={cn(collapsed && "md:sr-only")}>Novo snippet</span>
         </Button>
       </div>
 
-      <nav className={cn("flex-1 overflow-y-auto overflow-x-hidden scrollbar-slim pb-4 min-w-0", collapsed ? "px-0" : "px-3")}>
+      <nav className={cn("min-w-0 flex-1 overflow-y-auto overflow-x-hidden px-3 pb-4 scrollbar-slim", collapsed && "md:px-0")}>
         <NavItem
           icon={<Layers className="size-4" />}
           label="Todos os snippets"
@@ -213,11 +222,11 @@ export function Sidebar({ api, onNewSnippet }: Props) {
           </div>
         </div>
 
-        <div className={cn("mt-4 mb-2 flex items-center", collapsed ? "justify-center px-0" : "justify-between px-3")}> 
+        <div className={cn("mt-4 mb-2 flex items-center justify-between px-3", collapsed && "md:justify-center md:px-0")}> 
           <span
             className={cn(
               "text-[10px] font-bold uppercase tracking-widest text-muted-foreground",
-              collapsed && "sr-only",
+              collapsed && "md:sr-only",
             )}
           >
             Pastas
@@ -365,7 +374,7 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                       title={collapsed ? f.name : undefined}
                       className={cn(
                         "group/item flex w-full items-center rounded-md px-2 py-1.5 text-sm transition-colors",
-                        collapsed && "justify-center gap-0",
+                        collapsed && "md:justify-center md:gap-0",
                         active
                           ? "bg-foreground/5 text-foreground"
                           : "text-muted-foreground hover:bg-foreground/[0.03] hover:text-foreground",
@@ -389,41 +398,37 @@ export function Sidebar({ api, onNewSnippet }: Props) {
                             : "text-muted-foreground/60",
                         )}
                       />
-                      <span className={cn("min-w-0 truncate text-left", collapsed && "sr-only")}>{f.name}</span>
-                      {!collapsed && (
-                        <>
-                          <span className="ml-auto font-mono text-[10px] text-muted-foreground/60 opacity-100 group-hover:opacity-0">
-                            {counts.perFolder[f.id] ?? 0}
-                          </span>
-                          <span className="absolute right-2 flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                            <span
-                              role="button"
-                              tabIndex={0}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingId(f.id);
-                                setEditName(f.name);
-                              }}
-                              className="rounded p-1 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
-                              aria-label="Renomear pasta"
-                            >
-                              <Pencil className="size-3" />
-                            </span>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPendingDelete({ id: f.id, name: f.name });
-                              }}
-                              className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/20 hover:text-destructive"
-                              aria-label="Excluir pasta"
-                              title="Excluir pasta"
-                            >
-                              <Trash2 className="size-3" />
-                            </button>
-                          </span>
-                        </>
-                      )}
+                      <span className={cn("min-w-0 truncate text-left", collapsed && "md:sr-only")}>{f.name}</span>
+                      <span className={cn("ml-auto font-mono text-[10px] text-muted-foreground/60 opacity-100 group-hover:opacity-0", collapsed && "md:hidden")}>
+                        {counts.perFolder[f.id] ?? 0}
+                      </span>
+                      <span className={cn("absolute right-2 flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100", collapsed && "md:hidden")}>
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditingId(f.id);
+                            setEditName(f.name);
+                          }}
+                          className="rounded p-1 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
+                          aria-label="Renomear pasta"
+                        >
+                          <Pencil className="size-3" />
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPendingDelete({ id: f.id, name: f.name });
+                          }}
+                          className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/20 hover:text-destructive"
+                          aria-label="Excluir pasta"
+                          title="Excluir pasta"
+                        >
+                          <Trash2 className="size-3" />
+                        </button>
+                      </span>
                     </div>
                 )}
               </div>
@@ -432,7 +437,7 @@ export function Sidebar({ api, onNewSnippet }: Props) {
           {folders.length === 0 && !adding && (
             <p className={cn(
               "px-3 py-2 text-xs text-muted-foreground/60",
-              collapsed && "sr-only",
+              collapsed && "md:sr-only",
             )}>
               Nenhuma pasta ainda
             </p>
@@ -580,7 +585,7 @@ function NavItem({
       onClick={onClick}
       className={cn(
         "flex w-full items-center rounded-md text-sm transition-colors",
-        collapsed ? "justify-center gap-0 px-0 py-2" : "gap-3 px-3 py-2",
+        collapsed ? "gap-3 px-3 py-2 md:justify-center md:gap-0 md:px-0" : "gap-3 px-3 py-2",
         active
           ? "bg-white/5 text-foreground"
           : "text-muted-foreground hover:bg-white/[0.03] hover:text-foreground",
@@ -590,9 +595,14 @@ function NavItem({
       <span className={cn(active ? "text-primary" : "text-muted-foreground/60")}>
         {icon}
       </span>
-      <span className={cn("flex-1 overflow-hidden text-left font-medium", collapsed && "sr-only")}>{label}</span>
+      <span className={cn("flex-1 overflow-hidden text-left font-medium", collapsed && "md:sr-only")}>{label}</span>
       {typeof count === "number" && !collapsed && (
         <span className="font-mono text-[10px] text-muted-foreground/60">
+          {count}
+        </span>
+      )}
+      {typeof count === "number" && collapsed && (
+        <span className="font-mono text-[10px] text-muted-foreground/60 md:hidden">
           {count}
         </span>
       )}
