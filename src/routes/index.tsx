@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Search, Plus, LayoutGrid, List, Moon, Sun } from "lucide-react";
+import { Search, Plus, LayoutGrid, List, Moon, Sun, Instagram, X } from "lucide-react";
 import { Toaster } from "sonner";
 
 import { useDevFolder } from "@/hooks/useDevFolder";
@@ -210,6 +210,8 @@ function DevFolderPage() {
         onDelete={api.deleteSnippet}
       />
 
+      <CreatorBadge />
+
       {/* Hidden file input used by EmptyState "Import from file" */}
       <input
         ref={importRef}
@@ -240,6 +242,47 @@ function DevFolderPage() {
           },
         }}
       />
+    </div>
+  );
+}
+
+function CreatorBadge() {
+  const [collapsed, setCollapsed] = useState(false);
+  const instagramUrl = "https://www.instagram.com/dev_inojoza_/";
+
+  if (collapsed) {
+    return (
+      <a
+        href={instagramUrl}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Abrir Instagram de Gabriel Inojoza"
+        className="fixed bottom-4 right-4 z-40 flex size-9 items-center justify-center rounded-full border border-border/25 bg-background/25 text-muted-foreground/85 shadow-sm shadow-black/5 backdrop-blur transition-colors hover:border-border/50 hover:bg-background/55 hover:text-foreground md:bottom-5 md:right-5"
+      >
+        <Instagram className="size-3.5" />
+      </a>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-4 right-4 z-40 flex max-w-[calc(100vw-2rem)] items-center gap-0.5 rounded-full border border-border/25 bg-background/25 px-1.5 py-1 shadow-sm shadow-black/5 backdrop-blur transition-colors hover:border-border/50 hover:bg-background/55 md:bottom-5 md:right-5">
+      <a
+        href={instagramUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="group flex min-w-0 items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium text-muted-foreground/85 transition-colors hover:text-foreground"
+      >
+        <Instagram className="size-3 shrink-0 text-muted-foreground/82 transition-colors group-hover:text-foreground" />
+        <span className="truncate">Gabriel Inojoza</span>
+      </a>
+      <button
+        type="button"
+        onClick={() => setCollapsed(true)}
+        aria-label="Recolher badge"
+        className="flex size-6 shrink-0 items-center justify-center rounded-full text-muted-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+      >
+        <X className="size-3" />
+      </button>
     </div>
   );
 }
