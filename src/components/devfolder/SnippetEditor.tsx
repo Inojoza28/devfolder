@@ -146,7 +146,7 @@ export function SnippetEditor({
             </SelectContent>
           </Select>
 
-          <div className="ml-auto flex items-center gap-1 rounded-md border border-border p-0.5">
+          <div className="ml-auto flex items-center gap-1 rounded-md border border-border p-1">
             <TabButton active={!preview} onClick={() => setPreview(false)}>
               Editar
             </TabButton>
@@ -270,9 +270,9 @@ function TabButton({
     <button
       onClick={onClick}
       className={cn(
-        "rounded px-2.5 py-1 text-xs font-medium transition-colors",
+        "snippet-editor-tab rounded px-3 py-1.5 text-xs font-medium transition-colors",
         active
-          ? "bg-white/10 text-foreground"
+          ? "is-active bg-white/10 text-foreground"
           : "text-muted-foreground hover:text-foreground",
       )}
     >

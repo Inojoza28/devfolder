@@ -181,7 +181,7 @@ export function SnippetCard({
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-border bg-black/20 px-5 py-2.5">
+        <div className="snippet-card-footer flex items-center justify-between border-t border-border bg-black/20 px-5 py-2.5">
           <span className="text-[10px] text-muted-foreground">
             Editado {formatRelative(snippet.updatedAt)}
           </span>
@@ -197,7 +197,7 @@ export function SnippetCard({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="rounded p-1.5 text-muted-foreground outline-none transition-colors hover:bg-white/5 hover:text-foreground"
+                  className="snippet-card-footer-action rounded p-1.5 text-muted-foreground outline-none transition-colors hover:bg-white/5 hover:text-foreground"
                   aria-label="Mover para pasta"
                 >
                   <FolderInput className="size-3.5" />
@@ -298,7 +298,7 @@ function IconAction({
       aria-label={label}
       title={label}
       className={cn(
-        "rounded p-1.5 text-muted-foreground transition-colors hover:bg-white/5",
+        "snippet-card-footer-action rounded p-1.5 text-muted-foreground transition-colors hover:bg-white/5",
         danger ? "hover:text-destructive" : "hover:text-foreground",
       )}
     >
