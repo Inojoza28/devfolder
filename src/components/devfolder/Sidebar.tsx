@@ -497,7 +497,7 @@ export function Sidebar({ api, onNewSnippet }: Props) {
               }}
             />
           <p className={cn("px-1 text-[10px] text-muted-foreground", collapsed && "sr-only")}>
-            <span className="font-mono">v1.0</span> · Dados salvos localmente
+            <span className="font-mono">v1.19</span> · Dados salvos localmente
           </p>
       </div>
 
